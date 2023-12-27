@@ -8,7 +8,7 @@ import { useSelector} from "react-redux";
 import {FaUserAlt} from 'react-icons/fa'
 
 export default function NavbarPar(){
-    const { isAuthenticated} = useSelector(
+    const { isAuthenticated,user} = useSelector(
         (store) => store.auth
       );
     const [profileMenu, setProfileMenu] = useState(true);
@@ -35,13 +35,23 @@ export default function NavbarPar(){
                                         <CustomLink to="/produk">Products</CustomLink>
                                     </li>
                                     <li className="py-2">
-                                        <CustomLink to="#">Jasa</CustomLink>
+                                        <CustomLink to="/jasa">Jasa</CustomLink>
                                     </li>
-                                    <li className=" py-2 ">
-                                        <CustomLink to='#'>
-                                            Your Cart
-                                        </CustomLink>
-                                    </li> 
+                                    {
+                                        user.role ==="admin"?
+                                        <li className=" py-2 ">
+                                            <CustomLink to='/add-product'>
+                                                Tambah
+                                            </CustomLink>
+                                        </li> 
+                                        :
+                                        <li className=" py-2 ">
+                                            <CustomLink to='#'>
+                                                Your Cart
+                                            </CustomLink>
+                                        </li> 
+                                    }
+                                   
                                 </ul>
                             </nav>
                         </div>
@@ -52,7 +62,7 @@ export default function NavbarPar(){
                             <div className="">
                                 <div className="flex flex-row justify-end gap-4 ">
                                     <div className="w-32">
-                                        <h1 className="text-right text-[#053742]"><p className="font-thin text-[#808080] text-sm">Selamat Datang</p> Anonim </h1>     
+                                        <h1 className="text-right text-[#053742]"><p className="font-thin text-[#808080] text-sm">Selamat Datang</p> {user.username} </h1>     
                                     </div>
                                     <div className=" flex justify-center mx-auto md:mx-0 items-center">
                                         <button onClick={profileMenuClick}

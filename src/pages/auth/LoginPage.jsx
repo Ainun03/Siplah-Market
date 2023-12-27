@@ -13,9 +13,6 @@ import { useDispatch} from 'react-redux';
 import { loginUser } from "../../slices/authSlice";
 
 import axios from 'axios'
-
-
-
 function LoginPage () {
     const [isVisible, setIsVisible] = useState(false);
     const navigate = useNavigate();
@@ -49,13 +46,13 @@ function LoginPage () {
             .unwrap()
             .then((res) => {
                 toast.dismiss()
-                if (res.data === "Login Succes"){
+
+                console.log(res)
+                if (res.status === "success"){
                     // formik.setFieldError("email", "email atau kata sandi anda tidak valid!");
                     // toast.error('email atau kata sandi anda tidak valid!')
-                    console.log("Berhasil")
                     toast.success("Login berhasil!")
                     navigate('/')
-
                 }else {
                     toast.error('email atau kata sandi anda tidak valid!')
                     console.log("Gagal")

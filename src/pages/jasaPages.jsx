@@ -11,11 +11,10 @@ import {RxTriangleUp} from 'react-icons/rx'
 // component
 import Loader from "../components/Loader";
 
-export default function ProductPage(){
+export default function JasaPage(){
     const {products} =useSelector(
         (store) =>store.product
       )
-    
     const [category, setCategory] = useState('promo');
     const [productsData, setProductsData] = useState([]);
     const [resultSearch, setResultSearch] = useState([]);
@@ -88,8 +87,7 @@ export default function ProductPage(){
         <Fragment>
             <div className="relative">
             <NavbarPar/> 
-
-            <div className="py-0 pb-20 md:py-20 md:pb-0 max-w-7xl mx-auto ">    
+            <div className="py-0 pb-20 md:py-20 md:pb-0 max-w-6xl mx-auto ">    
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <section className="1 order-last w-full md:order-none border-r-2">
                         <div className=" relative py-4">
@@ -122,7 +120,7 @@ export default function ProductPage(){
                                                     ? "text-base text-orange-700 border-b-2 border-orange-700 border-shadow font-extrabold  text-[1.3rem] p-2  "
                                                     : "nonActive-state ")
                                             }>
-                                                <h1>Elektronik</h1>
+                                                <h1>Banner</h1>
                                             </div>
                                         </button>
                                 </li>

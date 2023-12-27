@@ -17,9 +17,15 @@ module.exports = withMT({
               'secondary2' : '#64E9FF',
               'third' : '#B5A61F',
           },
-          animation:{
-              'loading' : 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;'
+          keyframes: {
+            pulse: {
+              '0%, 100%': { opacity: 1 },
+              "50%": { opacity: .5 },
+            }
           },
+            animation:{
+                pulse : 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            },
           fontFamily: {
               sans: ["Open Sans", "sans-serif"],
               serif: ["Roboto Slab", "serif"],

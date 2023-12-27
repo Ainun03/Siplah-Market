@@ -1,4 +1,4 @@
-import React, { Fragment,useEffect } from "react";
+import React, { Fragment,useEffect,useState } from "react";
 
 // assets
 import ims from '../assets/images/pp.jpeg'
@@ -7,16 +7,22 @@ import ims from '../assets/images/pp.jpeg'
 import NavbarPar from '../partials/Navbar';
 import Footer from "../partials/Footer";
 
+import Test from "../partials/cardProducts/test";
+
 // icons
 import {BsFillCheckCircleFill} from 'react-icons/bs'
 import {BiSolidUserCircle} from 'react-icons/bi'
 import {AiFillStar} from 'react-icons/ai'
 
 function HomePage (){
+    const [data,setData]=useState([])
+    console.log(data)
     // useEffect(()=>{
-    //     fetch ('http://localhost:8081/users')
+    //     fetch ('http://localhost:8081/getData')
     //     .then(res=>res.json())
-    //     .then(data =>console.log(data))
+    //     .then(data =>
+    //         setData(data)
+    //         )
     //     .catch(err => console.log(err))
     // },[])
     return(
@@ -89,11 +95,11 @@ function HomePage (){
                                 <div className="grid pt-4 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 justify-center lg:grid-cols-3 md:grid-cols-2 w-full gap-6">      
                                     {/* {
                                         
-                                        products.length>0 ?
-                                        products
+                                        data.length>0 ?
+                                        data
                                         .map((items, idx)=>
                                         
-                                            <CardProduct key={idx}  item={items}/>
+                                            <Test key={idx}  item={items}/>
                                         )
                                         :""
                                     } */}

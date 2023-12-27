@@ -12,14 +12,14 @@ const initialState = {
 };
 
 export const getProducts = createAsyncThunk(
-    "/api/json/v1/1/search.php?f=b",
+    // "/api/json/v1/1/search.php?f=b",
+    "/product",
     async (payload,thunkAPI) => {
-        let url=`${API_URL}/api/json/v1/1/search.php?f=b`
-  
+        let url=`${API_URL_ADD}/product`
         try {
             const resp = await axios.get(url); 
             const { data } = resp;
-            return data.drinks;
+            return data;
       } catch (error) {
         const message =
           (error.response &&
@@ -42,9 +42,9 @@ export const postProducts = createAsyncThunk(
             const resp = await axios.post(url,JSON.stringify(payload),
               {
                 headers: {
-                  // Authorization: "Bearer " + token,
-                  accept: "*/*",
+                  Accept: "application/json",
                   "Content-Type": "application/json",
+                  "Accsess-Control-Allow-Origin":"*",
                 },
               }); 
             const { data } = resp;

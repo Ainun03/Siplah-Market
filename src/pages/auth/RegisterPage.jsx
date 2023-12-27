@@ -23,6 +23,7 @@ function RegisterPage () {
         username: "",
         email: "",
         password: "",
+        role: "user",
     };
 
     const validationSchema = () => {
@@ -31,7 +32,7 @@ function RegisterPage () {
                 .email("Email tidak valid")
                 .required("Tolong masukkan email"),
             password: Yup.string().required("Tolong masukkan password"),
-            username: Yup.string().required("Tolong masukkan Nomer Teleusername"),
+            username: Yup.string().required("Tolong masukkan username"),
 
         };
         return Yup.object().shape(validationObject);
@@ -41,11 +42,12 @@ function RegisterPage () {
         initialValues,
         validationSchema,
         onSubmit: (values) => { 
+            console.log(values)
             // toast.loading("Signing in . . .",{
             //     position: "top-center",
 			// 	autoClose: 3000,
             // });
-            axios.post('http://localhost:8081/register',values)
+            axios.post('http://localhost:8081/api/register',values)
             .then(res =>{
                 navigate('/auth/login')
             })

@@ -75,18 +75,17 @@ const AddProduct = () => {
     };
 
     const [data, setData] =useState('')
-    console.log(data)
     const handleBerkas =(e)=>{
         const berkas = e.target.files[0]
         // setData(berkas)
-        setData(
-            URL.createObjectURL(berkas)
-          );
+        // setData(
+        //     URL.createObjectURL(berkas)
+        //   );
         // formik.setFieldValue("image",berkas);
-        // getBase64(berkas,(url)=>{
-        //     setData(berkas)
-        //     return;
-        // })
+        getBase64(berkas,(url)=>{
+            setData(url)
+            return;
+        })
         // if (berkas) {
         //     if (berkas.size / 1000000 <= 2) {
         //         formik.setFieldValue("image", berkas);
@@ -104,16 +103,27 @@ const AddProduct = () => {
 
     /* ======== formik stuff ======== */
     const initialValues = {
-        title: "",
-        date: "",
+        productName: "",
+        category: "",
+        desc:"",
+        price:"",
+        stok:"",
         image: "",
     };
     
     const validationSchema = () => {
         const validationObject = {
-            title: Yup.string().required("Masukkan nama Kolam"),
-            date: Yup.string()
-                .required("Tolong masukkan Panjang Kolam"),
+            productName: Yup.string().required("Masukkan nama Product"),
+            category: Yup.string()
+                .required("Tolong masukkan Panjang category"),
+            desc: Yup.string()
+                .required("Tolong masukkan Panjang desc"),
+            price: Yup.string()
+                .required("Tolong masukkan Panjang price")
+                .matches(/^[0-9]*$/, "Tolong hanya masukkan angka"),
+            stok: Yup.string()
+                .required("Tolong masukkan Panjang stok")
+                .matches(/^[0-9]*$/, "Tolong hanya masukkan angka"),
             // image: Yup.string().required(
             //     "Tolong masukkan gambar produk (Maks 3)"
             // ),
@@ -124,30 +134,47 @@ const AddProduct = () => {
         initialValues,
         validationSchema,
         onSubmit: (values) => {
-            values.image=data
+            values.price=parseInt(values.price)
+            values.stok=parseInt(values.stok)
+            values.image=previewProductImages[0]
             console.log(values)
-            // toast.loading("Menambahkan Product . . .");
-            // dispatch(postProducts(
-            //     values
-            //     ))
-            //     .unwrap()
-            //     .then(() => {
-            //         toast.dismiss();
-            //         toast.success("Berhasil menambahkan Product!");
-            //         // navigate("/home-sel/laporan");
-            //     });
+            toast.loading("Menambahkan Product . . .");
+            dispatch(postProducts(
+                values
+                ))
+                .unwrap()
+                .then(() => {
+                    toast.dismiss();
+                    toast.success("Berhasil menambahkan Product!");
+                    navigate("/");
+                });
 
-            axios.post('http://localhost:8081/api/create-post',values)
-            .then(res =>{
-                console.log("iki res",res)
-                // if(res.data === "Login Succes"){
-                //     navigate('/')
-                // }else{
-                //     alert("no record")
-                // }
-            })
-            .catch(err => console.log(err))
-
+            // fetch('http://localhost:8081/api/create-post',{
+            //     method:"POST",
+            //     crossDomain:true,
+            //     headers:{
+            //         Accept: "application/json",
+            //         "Content-Type": "application/json",
+            //         "Accsess-Control-Allow-Origin":"*",
+            //     },
+            //     body:JSON.stringify(values)
+            // })
+            //  .then(res =>{
+            //     console.log("iki res",res)
+            // })
+            // .catch(err => console.log(err))
+            
+            // .catch(err => console.log(err))
+            // axios.post('http://localhost:8081/api/create-post',values)
+            // .then(res =>{
+            //     console.log("iki res",res)
+            //     // if(res.data === "Login Succes"){
+            //     //     navigate('/')
+            //     // }else{
+            //     //     alert("no record")
+            //     // }
+            // })
+            // .catch(err => console.log(err))
          
         },
     });
@@ -180,47 +207,110 @@ const AddProduct = () => {
                                     encType="multipart/form-data"
                                 >
                                     <fieldset className="flex flex-col mt-4 space-y-1">
-                                        <label htmlFor="title">
-                                            Title{" "}
+                                        <label htmlFor="productName">
+                                            Nama Produk{" "}
                                             <span className="text-red-500">*</span>
                                         </label>
                                         <Input
                                             type="text"
-                                            id="title"
-                                            name="title"
-                                            placeholder="Title"
+                                            id="productName"
+                                            name="productName"
+                                            placeholder="nama Product"
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.title}
+                                            value={formik.values.productName}
                                         />
-                                        {formik.touched.title &&
-                                            formik.errors.title && (
+                                        {formik.touched.productName &&
+                                            formik.errors.productName && (
                                                 <span className="text-sm text-red-500">
-                                                    {formik.errors.title}
+                                                    {formik.errors.productName}
                                                 </span>
                                             )}
                                     </fieldset>
                                     <fieldset className="flex flex-col mt-4 space-y-1">
-                                        <label htmlFor="date">
-                                            Tanggal{" "}
+                                        <label htmlFor="category">
+                                            Kategori{" "}
                                             <span className="text-red-500">*</span>
                                         </label>
                                         <Input
                                             type="text"
-                                            id="date"
-                                            name="date"
-                                            placeholder="Title"
+                                            id="category"
+                                            name="category"
+                                            placeholder="Kategory"
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.date}
+                                            value={formik.values.category}
                                         />
-                                        {formik.touched.date && formik.errors.date && (
+                                        {formik.touched.category &&
+                                            formik.errors.category && (
+                                                <span className="text-sm text-red-500">
+                                                    {formik.errors.category}
+                                                </span>
+                                            )}
+                                    </fieldset>
+                                    <fieldset className="flex flex-col mt-4 space-y-1">
+                                        <label htmlFor="desc">
+                                            Deskripsi{" "}
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <Input
+                                            type="text"
+                                            id="desc"
+                                            name="desc"
+                                            placeholder="Deskripsi"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.desc}
+                                        />
+                                        {formik.touched.desc &&
+                                            formik.errors.desc && (
+                                                <span className="text-sm text-red-500">
+                                                    {formik.errors.desc}
+                                                </span>
+                                            )}
+                                    </fieldset>
+                                    <fieldset className="flex flex-col mt-4 space-y-1">
+                                        <label htmlFor="price">
+                                            Harga{" "}
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <Input
+                                            type="text"
+                                            id="price"
+                                            name="price"
+                                            placeholder="Harga"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.price}
+                                        />
+                                        {formik.touched.price &&
+                                            formik.errors.price && (
+                                                <span className="text-sm text-red-500">
+                                                    {formik.errors.price}
+                                                </span>
+                                            )}
+                                    </fieldset>
+                                    <fieldset className="flex flex-col mt-4 space-y-1">
+                                        <label htmlFor="stok">
+                                            Stok{" "}
+                                            <span className="text-red-500">*</span>
+                                        </label>
+                                        <Input
+                                            type="text"
+                                            id="stok"
+                                            name="stok"
+                                            placeholder="Stok"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.stok}
+                                        />
+                                        {formik.touched.stok && formik.errors.stok && (
                                             <span className="text-sm text-red-500">
-                                                {formik.errors.date}
+                                                {formik.errors.stok}
                                             </span>
                                         )}
                                     </fieldset>
-                                    {/* <fieldset className="mt-4">
+                                    <fieldset className="mt-4">
                                         <p className="mb-1">
                                             Foto kolam (Maks 3){" "}
                                             <span className="text-red-500">*</span>
@@ -271,8 +361,8 @@ const AddProduct = () => {
                                                 {formik.errors.image}
                                             </span>
                                         )}
-                                    </fieldset> */}
-                                    <fieldset className="mt-4"  htmlFor="image">
+                                    </fieldset>
+                                    {/* <fieldset className="mt-4"  htmlFor="image">
                                         <p className="mb-1">
                                             Foto kolam (Maks 3){" "}
                                             <span className="text-red-500">*</span>
@@ -286,7 +376,7 @@ const AddProduct = () => {
                                                 onChange={handleBerkas}
                                             />
                                         </div>
-                                    </fieldset>
+                                    </fieldset> */}
 
                                     <div className="flex flex-row items-start mt-6 gap-4">
                                         <Button

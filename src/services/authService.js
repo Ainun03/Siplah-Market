@@ -24,14 +24,14 @@ const register = async (userData) => {
   // `${API_URL}/api/json/v1/1/search.php?f=b`
 
 const login = async (userData) => {
-    const response = await axios.post(`${API_URL}/login`, userData)
+    const response = await axios.post(`${API_URL}/api/login`, userData)
     
     if (response) {
 
-      localStorage.setItem('user', JSON.stringify(response))
+      localStorage.setItem('user', JSON.stringify(response.data))
     }
   
-    return response
+    return response.data
   }
 
 
